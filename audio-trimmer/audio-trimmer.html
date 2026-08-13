@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fully Functional Audio Trimmer Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlRLo6J/C0Jb5K5/L3X3l/O2/h8B9t1l/F5a5C4/o6Jg/w6N5K5H5O5F5L5S5R5V5U5T5W5X5Y5Z5a5b5c5d5e5f5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="audio-trimmer.css">
+</head>
+<body>
+    <div class="audio-trimmer-container">
+        <header>
+            <h1>Audio Trimmer Pro</h1>
+            <p>Upload, Cut, Merge, and Export Your Audio with Precision</p>
+        </header>
+
+        <main>
+            <div class="file-upload-section">
+                <input type="file" id="audioFileInput" accept="audio/*" hidden>
+                <label for="audioFileInput" class="upload-btn">Select Audio File</label>
+                <p id="fileNameDisplay" class="file-name">No file selected</p>
+            </div>
+
+            <div class="waveform-container">
+                <div class="waveform-wrapper">
+                    <canvas id="waveformCanvas"></canvas>
+                    <div id="trimmerOverlay" class="trimmer-overlay">
+                        <div id="leftTrimHandle" class="trim-handle left-handle"></div>
+                        <div id="rightTrimHandle" class="trim-handle right-handle"></div>
+                        <div id="selectedRegion" class="selected-region"></div>
+                    </div>
+                    <div id="playbackIndicator" class="playback-indicator"></div>
+                </div>
+                <div class="waveform-scroll-container">
+                    <div class="waveform-scroll">
+                        <div id="scrollThumb" class="waveform-scroll-thumb"></div>
+                    </div>
+                </div>
+                <div class="zoom-controls">
+                    <label for="zoomSlider" class="zoom-label">Zoom:</label>
+                    <input type="range" id="zoomSlider" min="1" max="10" step="0.5" value="1" class="zoom-slider">
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-wrapper">
+                        <canvas id="timelineCanvas"></canvas>
+                    </div>
+                </div>
+                <div class="time-info">
+                    <span id="currentTimeDisplay">0:00</span> / 
+                    <span id="totalTimeDisplay">0:00</span>
+                </div>
+                <div class="trim-range-info">
+                    <span>Selection Start: <span id="startTrimTime">0:00</span></span>
+                    <span>Selection End: <span id="endTrimTime">0:00</span></span>
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <div class="audio-controls">
+                    <button id="playPauseBtn" disabled>Play</button>
+                    <button id="cutSelectedRegionBtn" disabled>Cut Selected Region</button>
+                    <button id="resetCutsBtn" disabled>Reset All Cuts</button>
+                    <button id="downloadBtn" disabled>Download Processed</button>
+                </div>
+            </div>
+
+            <div class="notification-area">
+                <p id="notificationText" class="notification"></p>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Audio Trimmer Pro</p>
+        </footer>
+    </div>
+
+    <script src="audio-trimmer.js"></script>
+</body>
+</html>
+

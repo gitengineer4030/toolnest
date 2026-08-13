@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Recorder - Advanced Tool</title>
+    <link rel="stylesheet" href="../global.css">
+    <link rel="stylesheet" href="../design-system.css">
+    <link rel="stylesheet" href="media-recorder.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Advanced Media Recorder</h1>
+        <div class="tool-card">
+            <div class="tool-header">
+                <h2>Choose Recording Type</h2>
+            </div>
+            <div class="tool-content">
+                <div class="recording-options">
+                    <button id="startVideoRecording" class="btn btn-primary"><i data-lucide="video"></i> Record Video</button>
+                    <button id="startAudioRecording" class="btn btn-secondary"><i data-lucide="mic"></i> Record Audio</button>
+                    <button id="startScreenRecording" class="btn btn-info"><i data-lucide="monitor"></i> Record Screen</button>
+                </div>
+
+                <div id="mediaControls" class="media-controls hidden">
+                    <div class="toggles">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="cameraToggle" checked>
+                            <span class="slider"></span>
+                            <span class="toggle-label">Camera</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="microphoneToggle" checked>
+                            <span class="slider"></span>
+                            <span class="toggle-label">Microphone</span>
+                        </label>
+                    </div>
+
+                    <div class="quality-settings">
+                        <label for="videoQuality">Video Quality:</label>
+                        <select id="videoQuality">
+                            <option value="high">High (1080p)</option>
+                            <option value="medium">Medium (720p)</option>
+                            <option value="low">Low (480p)</option>
+                        </select>
+                        <label for="audioQuality">Audio Quality:</label>
+                        <select id="audioQuality">
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="countdownDisplay" class="countdown-display hidden"></div>
+
+                <div id="previewContainer" class="preview-container hidden">
+                    <video id="videoPreview" autoplay muted></video>
+                    <audio id="audioPreview" autoplay muted class="hidden"></audio>
+                </div>
+
+                <div id="recordingControls" class="recording-controls hidden">
+                    <div id="timerDisplay" class="timer-display">00:00:00</div>
+                    <button id="startRecordingBtn" class="btn btn-success"><i data-lucide="play"></i> Start</button>
+                    <button id="pauseRecordingBtn" class="btn btn-warning hidden"><i data-lucide="pause"></i> Pause</button>
+                    <button id="stopRecordingBtn" class="btn btn-danger hidden"><i data-lucide="square"></i> Stop</button>
+                </div>
+
+                <div id="resultsContainer" class="results-container hidden">
+                    <h3>Recorded Media</h3>
+                    <div id="mediaPlayerContainer"></div>
+                    <p id="fileSizeDisplay"></p>
+                    <a id="downloadLink" class="btn btn-primary hidden" download><i data-lucide="download"></i> Download</a>
+                    <button id="newRecordingBtn" class="btn btn-secondary"><i data-lucide="plus"></i> New Recording</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="../js/uiHelper.js"></script>
+    <script src="media-recorder.js"></script>
+</body>
+</html>
+
+
+

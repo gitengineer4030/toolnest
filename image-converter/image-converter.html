@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Converter - Toolnest</title>
+    <link rel="stylesheet" href="image-converter.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="tool-page">
+        <a href="../index.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Back to Tools
+        </a>
+        
+        <div class="tool-header">
+            <h1>Image Converter</h1>
+            <p>Convert images between different formats: JPG, PNG, WebP, and more.</p>
+        </div>
+        
+        <div class="tool-content">
+            <div class="form-group">
+                <label for="imageFileInput" class="form-label">Select Image File</label>
+                <div class="file-upload" id="fileUploadArea">
+                    <input type="file" id="imageFileInput" accept="image/*">
+                    <div class="upload-icon">
+                        <i data-lucide="image"></i>
+                    </div>
+                    <div class="upload-text">Click to upload or drag and drop</div>
+                    <div class="upload-subtext">JPG, PNG, WebP, etc.</div>
+                </div>
+            </div>
+
+            <div id="convertSettings" class="form-group hidden">
+                <label for="outputFormat" class="form-label">Output Format</label>
+                <select id="outputFormat" class="form-select">
+                    <option value="jpeg">JPEG</option>
+                    <option value="png">PNG</option>
+                    <option value="webp">WebP</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button id="convertBtn" class="btn btn-primary" disabled>Convert Image</button>
+            </div>
+
+            <div id="resultsContainer" class="results-container hidden">
+                <h3 class="results-title">Converted Image</h3>
+                <div id="imagePreview"></div>
+                <a id="downloadLink" class="btn btn-success hidden">Download Converted Image</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+    <script src="../js/fileValidator.js"></script>
+    <script src="image-converter.js"></script>
+</body>
+</html>
+
+
+

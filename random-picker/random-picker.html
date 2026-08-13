@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Picker - Toolnest</title>
+    <link rel="stylesheet" href="random-picker.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="tool-page">
+        <a href="../index.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Back to Tools
+        </a>
+        
+        <div class="tool-header">
+            <h1>Random Picker</h1>
+            <p>Pick random numbers, names, or items from lists with customizable options.</p>
+        </div>
+        
+        <div class="tool-content">
+            <div class="form-group">
+                <label for="pickerType" class="form-label">Picker Type</label>
+                <select id="pickerType" class="form-select">
+                    <option value="number">Random Number</option>
+                    <option value="list">Random Item from List</option>
+                </select>
+            </div>
+
+            <div id="numberOptions" class="form-group">
+                <label class="form-label">Range</label>
+                <div class="flex gap-2">
+                    <input type="number" id="minNum" class="form-input" value="1">
+                    <span style="align-self: center;">to</span>
+                    <input type="number" id="maxNum" class="form-input" value="100">
+                </div>
+            </div>
+
+            <div id="listOptions" class="form-group hidden">
+                <label for="itemsList" class="form-label">Items (one per line)</label>
+                <textarea id="itemsList" class="form-textarea" rows="8" placeholder="Apple
+Banana
+Orange"></textarea>
+            </div>
+
+            <div class="form-group">
+                <button id="pickBtn" class="btn btn-primary">Pick Random</button>
+            </div>
+
+            <div id="resultContainer" class="results-container hidden">
+                <h3 class="results-title">Result</h3>
+                <p id="result" style="font-size: 2rem; font-weight: bold; text-align: center;"></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+    <script src="random-picker.js"></script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Generator - Toolnest</title>
+    <link rel="stylesheet" href="hash-generator.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="tool-page">
+        <a href="../index.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Back to Tools
+        </a>
+        
+        <div class="tool-header">
+            <h1>Hash Generator</h1>
+            <p>Generate MD5, SHA-1, SHA-256 hashes using Web Crypto API.</p>
+        </div>
+        
+        <div class="tool-content">
+            <div class="form-group">
+                <label for="inputText" class="form-label">Input Text</label>
+                <textarea id="inputText" class="form-textarea" rows="8" placeholder="Type or paste your text here..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="hashAlgo" class="form-label">Hash Algorithm</label>
+                <select id="hashAlgo" class="form-select">
+                    <option value="MD5">MD5</option>
+                    <option value="SHA-1">SHA-1</option>
+                    <option value="SHA-256">SHA-256</option>
+                    <option value="SHA-512">SHA-512</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button id="generateBtn" class="btn btn-primary">Generate Hash</button>
+            </div>
+
+            <div class="form-group">
+                <label for="outputText" class="form-label">Generated Hash</label>
+                <textarea id="outputText" class="form-textarea" rows="4" readonly></textarea>
+            </div>
+
+            <div class="form-group">
+                <button id="copyBtn" class="btn btn-success">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+    <script src="hash-generator.js"></script>
+</body>
+</html>
+
+
+

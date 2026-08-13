@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter - Toolnest</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.min.css">
+</head>
+<body>
+    <div class="tool-page">
+        <a href="../index.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Back to Tools
+        </a>
+        
+        <div class="tool-header">
+            <h1>Word Counter</h1>
+            <p>Count words, characters, sentences, and paragraphs in your text. Get detailed statistics instantly.</p>
+        </div>
+        
+        <div class="tool-content">
+            <div class="tool-options">
+                <div class="options-header">
+                    <h3>Options</h3>
+                    <div class="toggle-options">
+                        <button id="toggleOptionsBtn" class="btn btn-sm btn-secondary">
+                            <i data-lucide="settings"></i>
+                            <span>Settings</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="optionsPanel" class="options-panel">
+                    <div class="options-grid">
+                        <div class="option-group">
+                            <label class="option-label">Highlight Mode</label>
+                            <div class="option-controls">
+                                <select id="highlightMode" class="form-select">
+                                    <option value="none">None</option>
+                                    <option value="words">Words</option>
+                                    <option value="sentences">Sentences</option>
+                                    <option value="paragraphs">Paragraphs</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label class="option-label">Auto-Save</label>
+                            <div class="option-controls">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="autoSaveToggle" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label class="option-label">Reading Time WPM</label>
+                            <div class="option-controls">
+                                <input type="number" id="readingWPM" class="form-input" value="200" min="100" max="500">
+                            </div>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label class="option-label">Exclude Common Words</label>
+                            <div class="option-controls">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="excludeCommonWords" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="editor-container">
+                <div class="form-group">
+                    <label class="form-label">Enter or paste your text</label>
+                    <div class="textarea-wrapper">
+                        <textarea 
+                            id="textInput" 
+                            class="form-textarea" 
+                            placeholder="Type or paste your text here to get live word count statistics..."
+                            style="min-height: 250px;"
+                        ></textarea>
+                        <div id="textHighlighter" class="text-highlighter"></div>
+                    </div>
+                    <div class="textarea-actions">
+                        <button id="pasteBtn" class="btn btn-sm btn-secondary">
+                            <i data-lucide="clipboard"></i>
+                            Paste from Clipboard
+                        </button>
+                        <button id="clearBtn" class="btn btn-sm btn-secondary">
+                            <i data-lucide="trash-2"></i>
+                            Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Statistics Display -->
+            <div class="results-container">
+                <div class="results-header">
+                    <h3 class="results-title">Text Statistics</h3>
+                    <div class="results-actions">
+                        <button id="refreshStatsBtn" class="btn btn-sm btn-secondary" title="Refresh statistics">
+                            <i data-lucide="refresh-cw"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="wordCount">0</div>
+                        <div class="stat-label">Words</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="charCount">0</div>
+                        <div class="stat-label">Characters</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="charNoSpaceCount">0</div>
+                        <div class="stat-label">Characters (no spaces)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="sentenceCount">0</div>
+                        <div class="stat-label">Sentences</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="paragraphCount">0</div>
+                        <div class="stat-label">Paragraphs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="readingTime">0</div>
+                        <div class="stat-label">Reading Time (min)</div>
+                    </div>
+                </div>
+                
+                <!-- Visualization -->
+                <div class="visualization-container">
+                    <div class="visualization-header">
+                        <h4>Text Visualization</h4>
+                        <select id="chartType" class="form-select form-select-sm">
+                            <option value="wordLength">Word Length Distribution</option>
+                            <option value="wordFrequency">Top 10 Words</option>
+                            <option value="sentenceLength">Sentence Length</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="textChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Additional Statistics -->
+                <div class="additional-stats">
+                    <div class="stat-detail">
+                        <h4>Average Words per Sentence</h4>
+                        <span id="avgWordsPerSentence">0</span>
+                    </div>
+                    <div class="stat-detail">
+                        <h4>Average Characters per Word</h4>
+                        <span id="avgCharsPerWord">0</span>
+                    </div>
+                    <div class="stat-detail">
+                        <h4>Most Common Word</h4>
+                        <span id="mostCommonWord">-</span>
+                    </div>
+                    <div class="stat-detail">
+                        <h4>Longest Word</h4>
+                        <span id="longestWord">-</span>
+                    </div>
+                    <div class="stat-detail">
+                        <h4>Readability Score</h4>
+                        <span id="readabilityScore">-</span>
+                    </div>
+                    <div class="stat-detail">
+                        <h4>Unique Words</h4>
+                        <span id="uniqueWords">0</span>
+                    </div>
+                </div>
+                
+                <!-- Export Options -->
+                <div class="export-options">
+                    <h4>Export Statistics</h4>
+                    <div class="export-buttons">
+                        <button id="copyStatsBtn" class="btn btn-secondary">
+                            <i data-lucide="copy"></i>
+                            Copy Statistics
+                        </button>
+                        <button id="downloadStatsBtn" class="btn btn-primary">
+                            <i data-lucide="download"></i>
+                            Download Report
+                        </button>
+                        <button id="exportPdfBtn" class="btn btn-secondary">
+                            <i data-lucide="file-text"></i>
+                            Export as PDF
+                        </button>
+                        <button id="exportJsonBtn" class="btn btn-secondary">
+                            <i data-lucide="code"></i>
+                            Export as JSON
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        /**
+         * Enhanced Word Counter Tool
+         * Count words, characters, sentences, and other text statistics with real-time visualization
+         */
+        
+        class WordCounter {
+            constructor() {
+                // DOM Elements
+                this.textInput = document.getElementById('textInput');
+                this.textHighlighter = document.getElementById('textHighlighter');
+                this.optionsPanel = document.getElementById('optionsPanel');
+                this.chartCanvas = document.getElementById('textChart');
+                
+                // State
+                this.currentText = '';
+                this.stats = {};
+                this.chart = null;
+                this.highlightMode = 'none';
+                this.readingWPM = 200;
+                this.autoSave = true;
+                this.excludeCommonWords = true;
+                this.commonWords = ['the', 'and', 'a', 'to', 'of', 'in', 'is', 'that', 'it', 'with', 'for', 'as', 'on', 'was', 'be', 'at', 'this', 'by', 'are', 'or', 'an', 'but', 'not', 'from'];
+                
+                // Initialize
+                this.init();
+            }
+            
+            init() {
+                // Initialize Lucide icons
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+                
+                // Initialize Chart.js
+                this.initializeChart('wordLength');
+                
+                // Load saved settings
+                this.loadSettings();
+                
+                // Bind events
+                this.bindEvents();
+                
+                // Load saved text and update stats
+                this.loadSavedText();
+                this.updateStats();
+                
+                // Initialize text highlighter
+                this.updateHighlighter();
+            }
+            
+            bindEvents() {
+                // Text input events
+                this.textInput.addEventListener('input', this.handleTextInput.bind(this));
+                this.textInput.addEventListener('scroll', this.syncScroll.bind(this));
+                
+                // Options panel toggle
+                document.getElementById('toggleOptionsBtn').addEventListener('click', () => {
+                    this.optionsPanel.classList.toggle('active');
+                });
+                
+                // Highlight mode change
+                document.getElementById('highlightMode').addEventListener('change', (e) => {
+                    this.highlightMode = e.target.value;
+                    this.updateHighlighter();
+                    this.saveSettings();
+                });
+                
+                // Auto-save toggle
+                document.getElementById('autoSaveToggle').addEventListener('change', (e) => {
+                    this.autoSave = e.target.checked;
+                    this.saveSettings();
+                    if (this.autoSave) {
+                        this.saveText();
+                    }
+                });
+                
+                // Reading WPM change
+                document.getElementById('readingWPM').addEventListener('change', (e) => {
+                    this.readingWPM = parseInt(e.target.value) || 200;
+                    this.saveSettings();
+                    this.updateStats();
+                });
+                
+                // Exclude common words toggle
+                document.getElementById('excludeCommonWords').addEventListener('change', (e) => {
+                    this.excludeCommonWords = e.target.checked;
+                    this.saveSettings();
+                    this.updateStats();
+                });
+                
+                // Chart type change
+                document.getElementById('chartType').addEventListener('change', (e) => {
+                    this.updateChart(e.target.value);
+                    this.saveSettings();
+                });
+                
+                // Clear button
+                document.getElementById('clearBtn').addEventListener('click', () => {
+                    this.textInput.value = '';
+                    this.currentText = '';
+                    this.updateStats();
+                    this.updateHighlighter();
+                    if (this.autoSave) this.saveText();
+                    this.textInput.focus();
+                    window.Toolnest.utils.showStatus('Text cleared');
+                });
+                
+                // Paste button
+                document.getElementById('pasteBtn').addEventListener('click', async () => {
+                    try {
+                        const text = await navigator.clipboard.readText();
+                        this.textInput.value = text;
+                        this.currentText = text;
+                        this.updateStats();
+                        this.updateHighlighter();
+                        if (this.autoSave) this.saveText();
+                        window.Toolnest.utils.showStatus('Text pasted from clipboard');
+                    } catch (err) {
+                        window.Toolnest.utils.showStatus('Could not read from clipboard', 'error');
+                    }
+                });
+                
+                // Refresh stats button
+                document.getElementById('refreshStatsBtn').addEventListener('click', () => {
+                    this.updateStats();
+                    window.Toolnest.utils.showStatus('Statistics refreshed');
+                });
+                
+                // Export buttons
+                document.getElementById('copyStatsBtn').addEventListener('click', () => {
+                    this.copyStatistics();
+                });
+                
+                document.getElementById('downloadStatsBtn').addEventListener('click', () => {
+                    this.downloadReport();
+                });
+                
+                document.getElementById('exportPdfBtn').addEventListener('click', () => {
+                    this.exportAsPdf();
+                });
+                
+                document.getElementById('exportJsonBtn').addEventListener('click', () => {
+                    this.exportAsJson();
+                });
+            }
+            
+            handleTextInput() {
+                this.currentText = this.textInput.value;
+                this.updateStats();
+                this.updateHighlighter();
+                if (this.autoSave) this.saveText();
+            }
+            
+            syncScroll() {
+                if (this.textHighlighter) {
+                    this.textHighlighter.scrollTop = this.textInput.scrollTop;
+                }
+            }
+            
+            updateStats() {
+                this.stats = this.analyzeText(this.currentText);
+                this.displayStats();
+                this.updateChart(document.getElementById('chartType').value);
+            }
+            
+            analyzeText(text) {
+                // Basic counts
+                const characters = text.length;
+                const charactersNoSpaces = text.replace(/\s/g, '').length;
+                
+                // Word count - split by whitespace and filter empty strings
+                const words = text.trim() === '' ? [] : text.trim().split(/\s+/);
+                const wordCount = words.length;
+                
+                // Unique words
+                const uniqueWords = new Set(words.map(word => word.toLowerCase().replace(/[^\w]/g, ''))).size;
+                
+                // Sentence count - split by sentence endings
+                const sentences = text.trim() === '' ? [] : text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+                const sentenceCount = sentences.length;
+                
+                // Paragraph count - split by double line breaks
+                const paragraphs = text.trim() === '' ? [] : text.split(/\n\s*\n/).filter(p => p.trim().length > 0);
+                const paragraphCount = paragraphs.length || (text.trim() ? 1 : 0);
+                
+                // Reading time (using configurable WPM)
+                const readingTime = Math.ceil(wordCount / this.readingWPM);
+                
+                // Advanced statistics
+                const avgWordsPerSentence = sentenceCount > 0 ? (wordCount / sentenceCount).toFixed(1) : 0;
+                const avgCharsPerWord = wordCount > 0 ? (charactersNoSpaces / wordCount).toFixed(1) : 0;
+                
+                // Word frequency analysis
+                const wordFrequency = this.analyzeWordFrequency(words);
+                
+                // Most common word
+                const mostCommonWord = this.findMostCommonWord(words);
+                
+                // Longest word
+                const longestWord = this.findLongestWord(words);
+                
+                // Word length distribution
+                const wordLengthDistribution = this.getWordLengthDistribution(words);
+                
+                // Sentence length distribution
+                const sentenceLengthDistribution = this.getSentenceLengthDistribution(sentences);
+                
+                // Readability score (Flesch-Kincaid)
+                const readabilityScore = this.calculateReadabilityScore(wordCount, sentenceCount, syllableCount(text));
+                
+                return {
+                    characters,
+                    charactersNoSpaces,
+                    wordCount: wordCount || 0,
+                    uniqueWords: uniqueWords || 0,
+                    sentenceCount: sentenceCount || 0,
+                    paragraphCount: paragraphCount || 0,
+                    readingTime: readingTime || 0,
+                    avgWordsPerSentence,
+                    avgCharsPerWord,
+                    mostCommonWord,
+                    longestWord,
+                    wordFrequency,
+                    wordLengthDistribution,
+                    sentenceLengthDistribution,
+                    readabilityScore
+                };
+            }
+            
+            analyzeWordFrequency(words) {
+                if (words.length === 0) return {};
+                
+                const frequency = {};
+                const cleanWords = words.map(word => 
+                    word.toLowerCase().replace(/[^\w]/g, '')
+                ).filter(word => {
+                    // Filter out short words and optionally common words
+                    if (word.length <= 1) return false;
+                    if (this.excludeCommonWords && this.commonWords.includes(word)) return false;
+                    return true;
+                });
+                
+                cleanWords.forEach(word => {
+                    frequency[word] = (frequency[word] || 0) + 1;
+                });
+                
+                return frequency;
+            }
+            
+            findMostCommonWord(words) {
+                if (words.length === 0) return '-';
+                
+                const frequency = {};
+                const cleanWords = words.map(word => 
+                    word.toLowerCase().replace(/[^\w]/g, '')
+                ).filter(word => {
+                    if (word.length <= 1) return false;
+                    if (this.excludeCommonWords && this.commonWords.includes(word)) return false;
+                    return true;
+                });
+                
+                cleanWords.forEach(word => {
+                    frequency[word] = (frequency[word] || 0) + 1;
+                });
+                
+                let maxCount = 0;
+                let mostCommon = '-';
+                
+                for (const [word, count] of Object.entries(frequency)) {
+                    if (count > maxCount) {
+                        maxCount = count;
+                        mostCommon = word;
+                    }
+                }
+                
+                return maxCount > 1 ? `${mostCommon} (${maxCount})` : '-';
+            }
+            
+            findLongestWord(words) {
+                if (words.length === 0) return '-';
+                
+                let longest = '';
+                words.forEach(word => {
+                    const cleanWord = word.replace(/[^\w]/g, '');
+                    if (cleanWord.length > longest.length) {
+                        longest = cleanWord;
+                    }
+                });
+                
+                return longest || '-';
+            }
+            
+            getWordLengthDistribution(words) {
+                if (words.length === 0) return {};
+                
+                const distribution = {};
+                words.forEach(word => {
+                    const cleanWord = word.replace(/[^\w]/g, '');
+                    const length = cleanWord.length;
+                    if (length > 0) {
+                        distribution[length] = (distribution[length] || 0) + 1;
+                    }
+                });
+                
+                return distribution;
+            }
+            
+            getSentenceLengthDistribution(sentences) {
+                if (sentences.length === 0) return {};
+                
+                const distribution = {};
+                sentences.forEach(sentence => {
+                    const words = sentence.trim().split(/\s+/).length;
+                    distribution[words] = (distribution[words] || 0) + 1;
+                });
+                
+                return distribution;
+            }
+            
+            calculateReadabilityScore(wordCount, sentenceCount, syllableCount) {
+                if (wordCount === 0 || sentenceCount === 0) return '-';
+                
+                // Flesch-Kincaid Reading Ease
+                const score = 206.835 - 1.015 * (wordCount / sentenceCount) - 84.6 * (syllableCount / wordCount);
+                
+                // Clamp score between 0-100
+                const clampedScore = Math.max(0, Math.min(100, score));
+                
+                // Interpret the score
+                let interpretation = '';
+                if (clampedScore >= 90) interpretation = 'Very Easy';
+                else if (clampedScore >= 80) interpretation = 'Easy';
+                else if (clampedScore >= 70) interpretation = 'Fairly Easy';
+                else if (clampedScore >= 60) interpretation = 'Standard';
+                else if (clampedScore >= 50) interpretation = 'Fairly Difficult';
+                else if (clampedScore >= 30) interpretation = 'Difficult';
+                else interpretation = 'Very Difficult';
+                
+                return `${Math.round(clampedScore)} (${interpretation})`;
+            }
+            
+            displayStats() {
+                // Update main statistics
+                document.getElementById('wordCount').textContent = this.stats.wordCount.toLocaleString();
+                document.getElementById('charCount').textContent = this.stats.characters.toLocaleString();
+                document.getElementById('charNoSpaceCount').textContent = this.stats.charactersNoSpaces.toLocaleString();
+                document.getElementById('sentenceCount').textContent = this.stats.sentenceCount.toLocaleString();
+                document.getElementById('paragraphCount').textContent = this.stats.paragraphCount.toLocaleString();
+                document.getElementById('readingTime').textContent = this.stats.readingTime.toLocaleString();
+                
+                // Update additional statistics
+                document.getElementById('avgWordsPerSentence').textContent = this.stats.avgWordsPerSentence;
+                document.getElementById('avgCharsPerWord').textContent = this.stats.avgCharsPerWord;
+                document.getElementById('mostCommonWord').textContent = this.stats.mostCommonWord;
+                document.getElementById('longestWord').textContent = this.stats.longestWord;
+                document.getElementById('readabilityScore').textContent = this.stats.readabilityScore;
+                document.getElementById('uniqueWords').textContent = this.stats.uniqueWords.toLocaleString();
+            }
+            
+            updateHighlighter() {
+                if (!this.textHighlighter) return;
+                
+                // Clear previous highlighting
+                this.textHighlighter.innerHTML = '';
+                
+                if (this.highlightMode === 'none' || !this.currentText) {
+                    this.textHighlighter.style.display = 'none';
+                    return;
+                }
+                
+                this.textHighlighter.style.display = 'block';
+                
+                let highlightedText = this.currentText;
+                
+                if (this.highlightMode === 'words') {
+                    // Highlight words with different colors based on length
+                    highlightedText = this.currentText.replace(/\b(\w+)\b/g, (match) => {
+                        const length = match.length;
+                        let colorClass = 'highlight-word';
+                        
+                        if (length <= 2) colorClass = 'highlight-word-xs';
+                        else if (length <= 4) colorClass = 'highlight-word-sm';
+                        else if (length <= 6) colorClass = 'highlight-word-md';
+                        else if (length <= 8) colorClass = 'highlight-word-lg';
+                        else colorClass = 'highlight-word-xl';
+                        
+                        return `<span class="${colorClass}">${match}</span>`;
+                    });
+                } else if (this.highlightMode === 'sentences') {
+                    // Highlight sentences
+                    highlightedText = this.currentText.replace(/([^.!?]+[.!?]+)/g, '<span class="highlight-sentence">$1</span>');
+                } else if (this.highlightMode === 'paragraphs') {
+                    // Highlight paragraphs
+                    highlightedText = this.currentText.replace(/((?:[^\n]+\n?)+)/g, '<span class="highlight-paragraph">$1</span>');
+                }
+                
+                // Preserve whitespace
+                highlightedText = highlightedText.replace(/\n/g, '<br>');
+                this.textHighlighter.innerHTML = highlightedText;
+                
+                // Sync scroll position
+                this.textHighlighter.scrollTop = this.textInput.scrollTop;
+            }
+            
+            initializeChart(type) {
+                if (!this.chartCanvas) return;
+                
+                // Create empty chart
+                this.chart = new Chart(this.chartCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: '',
+                            data: [],
+                            backgroundColor: 'rgba(37, 99, 235, 0.7)',
+                            borderColor: 'rgba(37, 99, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // Update with initial data
+                this.updateChart(type);
+            }
+            
+            updateChart(type) {
+                if (!this.chart || !this.stats) return;
+                
+                let labels = [];
+                let data = [];
+                let title = '';
+                
+                if (type === 'wordLength') {
+                    title = 'Word Length Distribution';
+                    const distribution = this.stats.wordLengthDistribution || {};
+                    
+                    // Sort by word length
+                    const sortedLengths = Object.keys(distribution).map(Number).sort((a, b) => a - b);
+                    
+                    labels = sortedLengths.map(length => `${length} ${length === 1 ? 'char' : 'chars'}`);
+                    data = sortedLengths.map(length => distribution[length]);
+                    
+                } else if (type === 'wordFrequency') {
+                    title = 'Top 10 Words';
+                    const frequency = this.stats.wordFrequency || {};
+                    
+                    // Sort by frequency and take top 10
+                    const sortedWords = Object.entries(frequency)
+                        .sort((a, b) => b[1] - a[1])
+                        .slice(0, 10);
+                    
+                    labels = sortedWords.map(([word]) => word);
+                    data = sortedWords.map(([, count]) => count);
+                    
+                } else if (type === 'sentenceLength') {
+                    title = 'Sentence Length Distribution';
+                    const distribution = this.stats.sentenceLengthDistribution || {};
+                    
+                    // Group sentence lengths into ranges
+                    const ranges = {
+                        '1-5': 0,
+                        '6-10': 0,
+                        '11-15': 0,
+                        '16-20': 0,
+                        '21-25': 0,
+                        '26-30': 0,
+                        '31+': 0
+                    };
+                    
+                    Object.entries(distribution).forEach(([length, count]) => {
+                        const len = parseInt(length);
+                        if (len <= 5) ranges['1-5'] += count;
+                        else if (len <= 10) ranges['6-10'] += count;
+                        else if (len <= 15) ranges['11-15'] += count;
+                        else if (len <= 20) ranges['16-20'] += count;
+                        else if (len <= 25) ranges['21-25'] += count;
+                        else if (len <= 30) ranges['26-30'] += count;
+                        else ranges['31+'] += count;
+                    });
+                    
+                    labels = Object.keys(ranges);
+                    data = Object.values(ranges);
+                }
+                
+                // Update chart data
+                this.chart.data.labels = labels;
+                this.chart.data.datasets[0].data = data;
+                this.chart.data.datasets[0].label = title;
+                
+                // Update chart options
+                this.chart.options.plugins.title = {
+                    display: true,
+                    text: title
+                };
+                
+                // Update chart
+                this.chart.update();
+            }
+            
+            copyStatistics() {
+                const statsText = this.formatStatsForExport();
+                
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(statsText).then(() => {
+                        window.Toolnest.utils.showStatus('Statistics copied to clipboard!');
+                    }).catch(() => {
+                        this.fallbackCopyTextToClipboard(statsText);
+                    });
+                } else {
+                    this.fallbackCopyTextToClipboard(statsText);
+                }
+            }
+            
+            fallbackCopyTextToClipboard(text) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    window.Toolnest.utils.showStatus('Statistics copied to clipboard!');
+                } catch (err) {
+                    window.Toolnest.utils.showStatus('Could not copy statistics', 'error');
+                }
+                
+                document.body.removeChild(textArea);
+            }
+            
+            formatStatsForExport() {
+                const date = new Date().toLocaleDateString();
+                return `TEXT ANALYSIS REPORT - ${date}
+                
+BASIC STATISTICS:
+• Words: ${this.stats.wordCount.toLocaleString()}
+• Characters: ${this.stats.characters.toLocaleString()}
+• Characters (no spaces): ${this.stats.charactersNoSpaces.toLocaleString()}
+• Sentences: ${this.stats.sentenceCount.toLocaleString()}
+• Paragraphs: ${this.stats.paragraphCount.toLocaleString()}
+• Unique Words: ${this.stats.uniqueWords.toLocaleString()}
+• Estimated Reading Time: ${this.stats.readingTime} minute(s)
+
+DETAILED ANALYSIS:
+• Average Words per Sentence: ${this.stats.avgWordsPerSentence}
+• Average Characters per Word: ${this.stats.avgCharsPerWord}
+• Most Common Word: ${this.stats.mostCommonWord}
+• Longest Word: ${this.stats.longestWord}
+• Readability Score: ${this.stats.readabilityScore}
+
+Generated by Toolnest - Word Counter`;
+            }
+            
+            downloadReport() {
+                const statsText = this.formatStatsForExport();
+                const blob = new Blob([statsText], { type: 'text/plain' });
+                const date = new Date().toISOString().split('T')[0];
+                const filename = `word-count-report-${date}.txt`;
+                
+                window.Toolnest.utils.downloadFile(blob, filename);
+                window.Toolnest.utils.showStatus('Report downloaded successfully!');
+            }
+            
+            exportAsPdf() {
+                try {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+                    
+                    // Add title
+                    doc.setFontSize(16);
+                    doc.text('Text Analysis Report', 20, 20);
+                    
+                    // Add date
+                    doc.setFontSize(10);
+                    doc.text(`Generated on ${new Date().toLocaleDateString()}`, 20, 30);
+                    
+                    // Add basic statistics
+                    doc.setFontSize(12);
+                    doc.text('Basic Statistics', 20, 40);
+                    
+                    doc.setFontSize(10);
+                    let y = 50;
+                    const stats = [
+                        `Words: ${this.stats.wordCount.toLocaleString()}`,
+                        `Characters: ${this.stats.characters.toLocaleString()}`,
+                        `Characters (no spaces): ${this.stats.charactersNoSpaces.toLocaleString()}`,
+                        `Sentences: ${this.stats.sentenceCount.toLocaleString()}`,
+                        `Paragraphs: ${this.stats.paragraphCount.toLocaleString()}`,
+                        `Unique Words: ${this.stats.uniqueWords.toLocaleString()}`,
+                        `Estimated Reading Time: ${this.stats.readingTime} minute(s)`
+                    ];
+                    
+                    stats.forEach(stat => {
+                        doc.text(`• ${stat}`, 25, y);
+                        y += 7;
+                    });
+                    
+                    // Add detailed analysis
+                    doc.setFontSize(12);
+                    doc.text('Detailed Analysis', 20, y + 5);
+                    
+                    doc.setFontSize(10);
+                    y += 15;
+                    const details = [
+                        `Average Words per Sentence: ${this.stats.avgWordsPerSentence}`,
+                        `Average Characters per Word: ${this.stats.avgCharsPerWord}`,
+                        `Most Common Word: ${this.stats.mostCommonWord}`,
+                        `Longest Word: ${this.stats.longestWord}`,
+                        `Readability Score: ${this.stats.readabilityScore}`
+                    ];
+                    
+                    details.forEach(detail => {
+                        doc.text(`• ${detail}`, 25, y);
+                        y += 7;
+                    });
+                    
+                    // Add footer
+                    doc.setFontSize(8);
+                    doc.text('Generated by Toolnest - Word Counter', 20, 280);
+                    
+                    // Save PDF
+                    const date = new Date().toISOString().split('T')[0];
+                    doc.save(`word-count-report-${date}.pdf`);
+                    
+                    window.Toolnest.utils.showStatus('PDF exported successfully!');
+                } catch (err) {
+                    console.error('PDF export error:', err);
+                    window.Toolnest.utils.showStatus('Could not export as PDF', 'error');
+                }
+            }
+            
+            exportAsJson() {
+                const data = {
+                    timestamp: new Date().toISOString(),
+                    text: this.currentText.substring(0, 100) + (this.currentText.length > 100 ? '...' : ''),
+                    statistics: this.stats
+                };
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const date = new Date().toISOString().split('T')[0];
+                const filename = `word-count-data-${date}.json`;
+                
+                window.Toolnest.utils.downloadFile(blob, filename);
+                window.Toolnest.utils.showStatus('JSON data exported successfully!');
+            }
+            
+            saveText() {
+                // Save current text to localStorage for persistence
+                window.Toolnest.Storage.set('wordCounter_text', this.currentText);
+            }
+            
+            loadSavedText() {
+                // Load previously saved text
+                const savedText = window.Toolnest.Storage.get('wordCounter_text', '');
+                if (savedText) {
+                    this.textInput.value = savedText;
+                    this.currentText = savedText;
+                }
+            }
+            
+            saveSettings() {
+                const settings = {
+                    highlightMode: this.highlightMode,
+                    readingWPM: this.readingWPM,
+                    autoSave: this.autoSave,
+                    excludeCommonWords: this.excludeCommonWords,
+                    chartType: document.getElementById('chartType').value
+                };
+                
+                window.Toolnest.Storage.set('wordCounter_settings', settings);
+            }
+            
+            loadSettings() {
+                const settings = window.Toolnest.Storage.get('wordCounter_settings', {});
+                
+                if (settings.highlightMode) {
+                    this.highlightMode = settings.highlightMode;
+                    document.getElementById('highlightMode').value = settings.highlightMode;
+                }
+                
+                if (settings.readingWPM) {
+                    this.readingWPM = settings.readingWPM;
+                    document.getElementById('readingWPM').value = settings.readingWPM;
+                }
+                
+                if (settings.autoSave !== undefined) {
+                    this.autoSave = settings.autoSave;
+                    document.getElementById('autoSaveToggle').checked = settings.autoSave;
+                }
+                
+                if (settings.excludeCommonWords !== undefined) {
+                    this.excludeCommonWords = settings.excludeCommonWords;
+                    document.getElementById('excludeCommonWords').checked = settings.excludeCommonWords;
+                }
+                
+                if (settings.chartType) {
+                    document.getElementById('chartType').value = settings.chartType;
+                }
+            }
+        }
+        
+        // Helper function to estimate syllable count
+        function syllableCount(text) {
+            if (!text) return 0;
+            
+            // Remove non-word characters and split into words
+            const words = text.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
+            
+            let count = 0;
+            
+            words.forEach(word => {
+                // Count vowel groups as syllables
+                const syllables = word.replace(/(?:[^laeiouy]|ed|[^laeiouy]e)$/, '')
+                    .replace(/^y/, '')
+                    .match(/[aeiouy]{1,2}/g);
+                
+                // Add syllable count for this word
+                count += syllables ? syllables.length : 1;
+            });
+            
+            return count;
+        }
+        
+        // Initialize the word counter when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new WordCounter();
+        });
+    </script>
+</body>
+</html>
+
+
+

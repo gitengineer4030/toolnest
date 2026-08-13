@@ -1,0 +1,438 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding-top: 2rem;
+    box-sizing: border-box;
+}
+
+.tool-page {
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.tool-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tool-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #374151;
+}
+
+.tool-header p {
+    font-size: 1.125rem;
+    color: #6b7280;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.tool-content {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #e0e7ff;
+    border-radius: 0.5rem;
+    background: #eff6ff;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+/* Form Elements (general) */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Buttons (general) */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+.btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #e5e7eb;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+    background: #c82333;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* QR Scanner Specific Styles */
+#scanner-container {
+    max-width: 500px;
+    margin: 0 auto 2rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.camera-select-group {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.camera-select-group .form-select {
+    max-width: 300px;
+    margin: 0.5rem auto 0 auto;
+}
+
+.qr-reader {
+    width: 100%;
+    min-height: 250px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    position: relative; /* For scanner frame */
+}
+
+.qr-reader video {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover;
+}
+
+#reader__scan_region {
+    border: 4px dashed #2563eb; /* Stylish scanner frame */
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+}
+
+#reader__dashboard_section_csr {
+    display: none; /* Hide default dashboard for custom controls */
+}
+
+.scanner-controls {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Result Container */
+.result-container {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.result-container h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+#qrResult {
+    width: 100%;
+    min-height: 100px;
+    margin-bottom: 1rem;
+    background-color: #f1f3f5;
+    border: 1px solid #e0e7ff;
+}
+
+.result-container .btn {
+    margin-right: 0.5rem;
+}
+
+/* Message Box */
+.message-box {
+    margin-top: 2rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.message-box.info {
+    background-color: #e0f2fe; /* Light blue */
+    color: #0c4a6e; /* Dark blue */
+    border: 1px solid #a7d9f7;
+}
+
+.message-box.error {
+    background-color: #fee2e2; /* Light red */
+    color: #991b1b; /* Dark red */
+    border: 1px solid #fca5a5;
+}
+
+.message-box p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        padding-top: 1rem;
+    }
+
+    .tool-page {
+        padding: 1rem;
+    }
+
+    .tool-header h1 {
+        font-size: 2rem;
+    }
+
+    .tool-header p {
+        font-size: 1rem;
+    }
+
+    .back-link {
+        margin-bottom: 1.5rem;
+    }
+
+    .tool-content {
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+    }
+
+    #scanner-container {
+        margin-bottom: 1.5rem;
+    }
+
+    .camera-select-group {
+        margin-bottom: 1rem;
+    }
+
+    .camera-select-group .form-select {
+        max-width: 100%;
+    }
+
+    .qr-reader {
+        min-height: 200px;
+    }
+
+    .scanner-controls {
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-top: 1rem;
+    }
+
+    .scanner-controls .btn {
+        width: 100%;
+        padding: 0.7rem 1.2rem;
+        font-size: 0.95rem;
+    }
+
+    .result-container {
+        padding: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .result-container h2 {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+    }
+
+    #qrResult {
+        min-height: 80px;
+        font-size: 0.9rem;
+    }
+
+    .result-container .btn {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 0.5rem; /* Add spacing for stacked buttons */
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .message-box {
+        margin-top: 1.5rem;
+        padding: 0.8rem;
+    }
+
+    .message-box p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 0.5rem;
+    }
+
+    .tool-page {
+        padding: 0.5rem;
+    }
+
+    .tool-header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .tool-header p {
+        font-size: 0.9rem;
+    }
+
+    .back-link {
+        margin-bottom: 1rem;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .tool-content {
+        padding: 1rem;
+        border-radius: 0.5rem;
+    }
+
+    .camera-select-group {
+        margin-bottom: 0.8rem;
+    }
+
+    .form-label {
+        font-size: 0.85rem;
+    }
+
+    .form-select {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .qr-reader {
+        min-height: 180px;
+    }
+
+    .scanner-controls {
+        gap: 0.5rem;
+        margin-top: 0.8rem;
+    }
+
+    .scanner-controls .btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .result-container {
+        padding: 0.8rem;
+        margin-top: 1rem;
+    }
+
+    .result-container h2 {
+        font-size: 1rem;
+        margin-bottom: 0.6rem;
+    }
+
+    #qrResult {
+        min-height: 60px;
+        font-size: 0.8rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .result-container .btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .message-box {
+        margin-top: 1rem;
+        padding: 0.6rem;
+    }
+
+    .message-box p {
+        font-size: 0.8rem;
+    }
+}
+

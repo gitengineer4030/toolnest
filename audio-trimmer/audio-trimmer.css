@@ -1,0 +1,941 @@
+/* General Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.audio-trimmer-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 900px; /* Increased max-width for better desktop experience */
+    width: 90%; /* Responsive width */
+    box-sizing: border-box;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+header h1 {
+    color: #007bff;
+    margin: 0 0 10px 0;
+    font-size: 2.5em;
+}
+
+header p {
+    color: #666;
+    font-size: 1.1em;
+}
+
+main {
+    padding: 0 10px;
+}
+
+/* File Upload Section */
+.file-upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 2px dashed #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.upload-btn {
+    position: relative;
+    background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(78, 205, 196, 0.3);
+    transform: perspective(1px) translateZ(0);
+}
+
+.upload-btn::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #45b7d1, #4ecdc4);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 0.3s ease-out;
+}
+
+.upload-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 25px rgba(78, 205, 196, 0.4);
+}
+
+.upload-btn:hover::before {
+    transform: scaleX(1);
+}
+
+.upload-btn:active {
+    transform: translateY(-2px) scale(0.98);
+    box-shadow: 0 8px 15px rgba(78, 205, 196, 0.2);
+}
+
+.file-name {
+    font-size: 1em;
+    color: #555;
+    word-break: break-all;
+    text-align: center;
+}
+
+/* Waveform Container */
+.waveform-container {
+    margin-bottom: 30px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    padding: 15px;
+}
+
+.waveform-wrapper {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.waveform-scroll-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.waveform-scroll {
+    width: 100%;
+    height: 12px;
+    margin-top: 5px;
+    position: relative;
+    background: #e0e0e0;
+    border-radius: 6px;
+}
+
+.waveform-scroll-thumb {
+    position: absolute;
+    height: 100%;
+    background: #007bff;
+    border-radius: 6px;
+    cursor: grab;
+    min-width: 50px;
+    touch-action: none; /* Prevents default touch actions */
+    -webkit-tap-highlight-color: transparent; /* Removes tap highlight on mobile */
+}
+
+.waveform-scroll-thumb:active {
+    cursor: grabbing;
+    background: #0056b3;
+}
+
+/* Make the scroll bar larger on mobile for better touch interaction */
+@media (max-width: 768px) {
+    .waveform-scroll {
+        height: 20px; /* Larger height for better touch target */
+    }
+    
+    .waveform-scroll-thumb {
+        min-width: 60px; /* Slightly larger minimum width on mobile */
+    }
+}
+
+.timeline-wrapper {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    background-color: #f0f0f0;
+    border-radius: 0 0 6px 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 15px;
+}
+
+#timelineCanvas {
+    height: 30px;
+    display: block;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+#waveformCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.trimmer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows clicks to pass through to canvas */
+}
+
+.trim-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 24px; /* Slightly wider for easier grabbing */
+    background: linear-gradient(to right, #007bff, #0056b3); /* Subtle gradient */
+    cursor: ew-resize;
+    opacity: 0.9; /* Slightly less opaque for a softer look */
+    z-index: 10;
+    border-radius: 4px; /* Rounded corners */
+    pointer-events: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+
+.trim-handle::before { /* Grip indicator */
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 60%;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 1px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.trim-handle.left-handle::before { /* Adjust position for left handle */
+    left: 10px; 
+}
+
+.trim-handle.right-handle::before { /* Adjust position for right handle */
+    right: 10px;
+}
+
+.trim-handle:hover {
+    opacity: 1; /* Fully opaque on hover */
+    transform: scaleX(1.1); /* Slightly expand on hover for feedback */
+}
+
+.left-handle {
+    left: 0;
+}
+
+.right-handle {
+    right: 0;
+}
+
+.selected-region {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 123, 255, 0.2); /* Light blue overlay for selection */
+    z-index: 5;
+    pointer-events: none;
+}
+
+.playback-indicator {
+    position: absolute;
+    top: 0;
+    /* Make indicator taller to contain the much larger triangle */
+    height: calc(100% + 20px); /* waveform-wrapper height (100%) + new triangle height (20px) */
+    width: 2px;
+    background-color: red;
+    z-index: 15;
+    pointer-events: none; /* Prevent indicator from blocking interactions */
+    /* Adjust transform to keep the visual center aligned, accounting for the new 20px triangle */
+    transform: translateX(-50%) translateY(-10px); /* Shift up by half the new triangle's height */
+    transition: left 0.1s linear; /* Slightly smoother transition */
+    will-change: left; /* Optimize for animations */
+}
+
+.playback-indicator::after {
+    content: '';
+    position: absolute;
+    bottom: 0; /* Align top of triangle with the bottom of the indicator */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Only horizontal centering for the triangle */
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent; /* Even Larger base */
+    border-right: 15px solid transparent; /* Even Larger base */
+    border-top: 20px solid red; /* Much taller triangle */
+}
+
+.time-info,
+.trim-range-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.time-info span,
+.trim-range-info span {
+    padding: 5px 10px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+}
+
+/* Controls Section */
+.controls-section {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.audio-controls {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    justify-content: center;
+    gap: 15px; /* Spacing between buttons */
+}
+
+.audio-controls button {
+    position: relative;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    transform: perspective(1px) translateZ(0);
+}
+
+.audio-controls button i {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.audio-controls button::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.audio-controls button:hover::before {
+    opacity: 1;
+}
+
+.audio-controls button:hover {
+    transform: translateY(-5px);
+}
+
+.audio-controls button:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+#playPauseBtn {
+    background: linear-gradient(135deg, #28a745, #1e7e34);
+    box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
+    color: white;
+}
+
+#playPauseBtn::before {
+    background: linear-gradient(135deg, #1e7e34, #155724);
+}
+
+#cutSelectedRegionBtn {
+    background: linear-gradient(135deg, #dc3545, #bd2130);
+    box-shadow: 0 10px 20px rgba(220, 53, 69, 0.3);
+    color: white;
+}
+
+#cutSelectedRegionBtn::before {
+    background: linear-gradient(135deg, #bd2130, #a71d2a);
+}
+
+#resetCutsBtn {
+    background: linear-gradient(135deg, #ffc107, #d39e00);
+    box-shadow: 0 10px 20px rgba(255, 193, 7, 0.3);
+    color: #333;
+}
+
+#resetCutsBtn::before {
+    background: linear-gradient(135deg, #d39e00, #b88b00);
+}
+
+#downloadBtn {
+    background: linear-gradient(135deg, #17a2b8, #117a8b);
+    box-shadow: 0 10px 20px rgba(23, 162, 184, 0.3);
+    color: white;
+}
+
+#downloadBtn::before {
+    background: linear-gradient(135deg, #117a8b, #0e6c7c);
+}
+
+.audio-controls button:disabled {
+    background: linear-gradient(135deg, #cccccc, #aaaaaa);
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+    opacity: 0.6;
+}
+
+/* Notification Area */
+.notification-area {
+    text-align: center;
+    margin-top: 20px;
+    min-height: 25px; /* Reserve space to prevent layout shifts */
+}
+
+.notification {
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: 500;
+    display: inline-block; /* Only take up space needed */
+    margin: 0 auto;
+}
+
+.notification.info {
+    background-color: #e9f7fe;
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.notification.success {
+    background-color: #d4edda;
+    color: #28a745;
+    border: 1px solid #28a745;
+}
+
+.notification.error {
+    background-color: #f8d7da;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    color: #777;
+    font-size: 0.9em;
+}
+
+/* Icons (basic styling, replace with actual icon font if desired) */
+.icon-upload::before { content: '\f093'; } /* Example FontAwesome code */
+.icon-play::before { content: '\f04b'; }
+.icon-pause::before { content: '\f04c'; }
+.icon-cut::before { content: '\f0c4'; }
+.icon-reset::before { content: '\f01e'; }
+.icon-download::before { content: '\f0ed'; }
+/* You might need to link a Font Awesome CSS for these icons to show */
+
+/* ---------------------------------- */
+/* Responsive Design / Media Queries  */
+/* ---------------------------------- */
+
+/* For screens smaller than 768px (e.g., tablets in portrait and large phones) */
+@media (max-width: 768px) {
+    .audio-trimmer-container {
+        padding: 20px;
+        margin: 10px auto; /* Adjust margin for smaller screens */
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+
+    header p {
+        font-size: 1em;
+    }
+
+    .upload-btn {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
+    .waveform-wrapper {
+        height: 150px; /* Slightly reduce waveform height on smaller screens */
+    }
+
+    .time-info, .trim-range-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .audio-controls {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+        gap: 10px;
+    }
+
+    .audio-controls button {
+        width: 100%; /* Full width buttons */
+        max-width: none; /* Override max-width */
+        padding: 10px 15px;
+        font-size: 0.95em;
+    }
+}
+
+/* For screens smaller than 480px (e.g., typical mobile phones) */
+@media (max-width: 480px) {
+    .audio-trimmer-container {
+        padding: 15px;
+        width: 95%;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    header p {
+        font-size: 0.9em;
+    }
+
+    .upload-btn {
+        font-size: 0.9em;
+        padding: 8px 15px;
+    }
+
+    .file-name {
+        font-size: 0.9em;
+    }
+
+    .waveform-wrapper {
+        height: 120px; /* Further reduce waveform height */
+        margin-bottom: 10px;
+    }
+
+    .time-info span,
+    .trim-range-info span {
+        font-size: 0.85em;
+        padding: 3px 8px;
+    }
+
+    .trim-handle {
+        width: 15px; /* Smaller trim handles */
+    }
+
+    .audio-controls button {
+        font-size: 0.9em;
+        padding: 8px 12px;
+    }
+
+    .notification {
+        font-size: 0.9em;
+        padding: 8px 10px;
+    }
+}
+
+/* Universal Button Design */
+button, 
+.upload-btn, 
+input[type="file"] + label, 
+.btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 40px;
+    font-size: 1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    transform: perspective(1px) translateZ(0);
+    text-decoration: none;
+    outline: none;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Hover and Active States */
+button:hover, 
+.upload-btn:hover, 
+input[type="file"] + label:hover, 
+.btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+button:active, 
+.upload-btn:active, 
+input[type="file"] + label:active, 
+.btn:active {
+    transform: translateY(-2px) scale(0.98);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Overlay Effect */
+button::before, 
+.upload-btn::before, 
+input[type="file"] + label::before, 
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: all 0.6s;
+}
+
+button:hover::before, 
+.upload-btn:hover::before, 
+input[type="file"] + label:hover::before, 
+.btn:hover::before {
+    left: 100%;
+}
+
+/* Specific Button Colors with Enhanced Design */
+#playPauseBtn {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+    position: relative;
+    overflow: hidden;
+    border-radius: 50px;
+    padding: 14px 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+#playPauseBtn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255,255,255,0.1);
+    transform: rotate(-45deg);
+    transition: all 0.5s ease;
+    opacity: 0;
+}
+
+#playPauseBtn:hover::before {
+    top: 0;
+    left: 0;
+    opacity: 1;
+}
+
+#playPauseBtn i {
+    margin-right: 10px;
+    font-size: 1.3em;
+    vertical-align: middle;
+}
+
+#cutSelectedRegionBtn {
+    background: linear-gradient(135deg, #FF5722, #F44336);
+    color: white;
+    box-shadow: 0 10px 20px rgba(244, 67, 54, 0.3);
+    position: relative;
+    overflow: hidden;
+    border-radius: 50px;
+    padding: 14px 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+#cutSelectedRegionBtn::after {
+    content: '';
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    transform: skewX(-45deg);
+    transition: all 0.5s ease;
+    opacity: 0;
+}
+
+#cutSelectedRegionBtn:hover::after {
+    bottom: 0;
+    opacity: 1;
+}
+
+#cutSelectedRegionBtn i {
+    margin-right: 10px;
+    font-size: 1.3em;
+    vertical-align: middle;
+}
+
+#resetCutsBtn {
+    background: linear-gradient(135deg, #FFC107, #FF9800);
+    color: #333;
+    box-shadow: 0 10px 20px rgba(255, 193, 7, 0.3);
+    position: relative;
+    overflow: hidden;
+    border-radius: 50px;
+    padding: 14px 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+#resetCutsBtn::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.05);
+    transform: skewY(45deg);
+    transition: all 0.5s ease;
+    opacity: 0;
+}
+
+#resetCutsBtn:hover::before {
+    top: 0;
+    opacity: 1;
+}
+
+#resetCutsBtn i {
+    margin-right: 10px;
+    font-size: 1.3em;
+    vertical-align: middle;
+}
+
+#downloadBtn {
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    color: white;
+    box-shadow: 0 10px 20px rgba(33, 150, 243, 0.3);
+    position: relative;
+    overflow: hidden;
+    border-radius: 50px;
+    padding: 14px 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+#downloadBtn::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    transform: skewX(45deg);
+    transition: all 0.5s ease;
+    opacity: 0;
+}
+
+#downloadBtn:hover::before {
+    top: 0;
+    opacity: 1;
+}
+
+#downloadBtn i {
+    margin-right: 10px;
+    font-size: 1.3em;
+    vertical-align: middle;
+}
+
+/* Disabled Button State */
+button:disabled, 
+.upload-btn:disabled, 
+input[type="file"] + label:disabled, 
+.btn:disabled {
+    background: linear-gradient(135deg, #e0e0e0, #c0c0c0);
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+/* Button Icons */
+button i, 
+.upload-btn i, 
+input[type="file"] + label i, 
+.btn i {
+    font-size: 1.2em;
+    margin-right: 8px;
+}
+
+/* File Input Special Styling */
+input[type="file"] {
+    display: none;
+}
+
+input[type="file"] + label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    button, 
+    .upload-btn, 
+    input[type="file"] + label, 
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+        letter-spacing: 1px;
+    }
+}
+
+/* Notification Buttons */
+.notification-area button {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    padding: 10px 20px;
+    margin: 0 10px;
+}
+
+/* Additional Interactive Elements */
+.interactive-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ff9a9a);
+    color: white;
+}
+
+.subtle-btn {
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    color: #333;
+}
+
+/* Button Icon Removal */
+#playPauseBtn i,
+#cutSelectedRegionBtn i,
+#resetCutsBtn i,
+#downloadBtn i,
+.upload-btn i {
+    display: none; /* Hide icons */
+}
+
+/* Adjust button padding and text alignment for icon removal */
+#playPauseBtn,
+#cutSelectedRegionBtn,
+#resetCutsBtn,
+#downloadBtn,
+.upload-btn {
+    padding: 14px 30px;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Zoom Controls */
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+}
+
+.zoom-label {
+    font-weight: 600;
+    color: #333;
+    margin-right: 10px;
+}
+
+.zoom-slider {
+    -webkit-appearance: none;
+    width: 300px;
+    height: 10px;
+    background: linear-gradient(to right, #4ecdc4, #45b7d1);
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    border-radius: 5px;
+}
+
+.zoom-slider:hover {
+    opacity: 1;
+}
+
+.zoom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #007bff;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.zoom-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #007bff;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+/* Timeline Container */
+.timeline-container {
+    width: 100%;
+    margin-top: 10px;
+    position: relative;
+}
+
+#timelineCanvas {
+    width: 100%;
+    height: 50px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+/* Timeline Markers */
+.timeline-marker {
+    position: absolute;
+    bottom: 0;
+    height: 10px;
+    background-color: #007bff;
+    width: 2px;
+}
+

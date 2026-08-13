@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIP Extractor - Toolnest</title>
+    <link rel="stylesheet" href="zip-extractor.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="tool-page">
+        <a href="../index.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Back to Tools
+        </a>
+        
+        <div class="tool-header">
+            <h1>ZIP Extractor</h1>
+            <p>Extract and view the contents of ZIP files directly in your browser.</p>
+        </div>
+        
+        <div class="tool-content">
+            <div class="form-group">
+                <label for="zipFileInput" class="form-label">Select ZIP File</label>
+                <div class="file-upload" id="fileUploadArea">
+                    <input type="file" id="zipFileInput" accept=".zip">
+                    <div class="upload-icon">
+                        <i data-lucide="archive"></i>
+                    </div>
+                    <div class="upload-text">Click to upload or drag and drop</div>
+                    <div class="upload-subtext">.zip</div>
+                </div>
+            </div>
+
+            <div id="statusMessage" class="status-message hidden" role="alert"></div>
+
+            <div id="zipContents" class="results-container hidden">
+                <h3 class="results-title">ZIP Contents</h3>
+                <div class="results-header">
+                    <span id="fileCountDisplay"></span>
+                    <button id="downloadAllBtn" class="btn btn-primary">
+                        <i data-lucide="download"></i>
+                        Download All
+                    </button>
+                </div>
+                <ul id="fileList"></ul>
+            </div>
+        </div>
+    </div>
+    <div id="emptyState" class="empty-state">
+        <i data-lucide="inbox"></i>
+        <p>Upload a ZIP file to see its contents here.</p>
+    </div>
+    <div id="loadingIndicator" class="loading hidden">
+        <div class="spinner"></div>
+        <span>Extracting ZIP file...</span>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+    <script src="../js/fileValidator.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+

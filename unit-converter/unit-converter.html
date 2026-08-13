@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter - Toolnest</title>
+    <link rel="stylesheet" href="unit-converter.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="tool-page">
+        <a href="../index.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Back to Tools
+        </a>
+        
+        <div class="tool-header">
+            <h1>Unit Converter</h1>
+            <p>Convert between units of length, weight, temperature, volume, area, and more. All calculations happen instantly in your browser.</p>
+        </div>
+        
+        <div class="card tool-content">
+            <div class="card-header">
+                <!-- Category Selector -->
+                <div class="form-group">
+                    <label class="form-label">Conversion Category</label>
+                    <select id="categorySelect" class="form-select">
+                        <option value="length">Length</option>
+                        <option value="weight">Weight & Mass</option>
+                        <option value="temperature">Temperature</option>
+                        <option value="volume">Volume</option>
+                        <option value="area">Area</option>
+                        <option value="speed">Speed</option>
+                        <option value="time">Time</option>
+                        <option value="digital">Digital Storage</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <!-- Input Group -->
+                <div class="conversion-group">
+                    <div class="form-group">
+                        <label class="form-label">From</label>
+                        <div class="input-group">
+                            <input type="number" id="inputValue" class="form-input" placeholder="Enter value" step="any">
+                            <select id="fromUnit" class="form-select"></select>
+                        </div>
+                    </div>
+                    
+                    <button id="swapBtn" class="btn btn-secondary btn-lg" title="Swap units">
+                        <i data-lucide="arrow-left-right"></i>
+                    </button>
+                    
+                    <div class="form-group">
+                        <label class="form-label">To</label>
+                        <div class="input-group">
+                            <input type="number" id="outputValue" class="form-input" placeholder="Result" readonly>
+                            <select id="toUnit" class="form-select"></select>
+                        </div>
+                    </div>
+                </div>
+            
+            <!-- Quick Swap Buttons -->
+            <div id="quickOptions" style="margin-top: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem; color: #374151;">Quick Conversions</h4>
+                <div id="quickButtons" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
+            </div>
+            
+            <!-- Conversion History -->
+            <div id="history" class="results-container" style="margin-top: 2rem; display: none;">
+                <div class="results-header">
+                    <h3 class="results-title">Recent Conversions</h3>
+                    <button id="clearHistory" class="btn btn-secondary btn-sm">Clear</button>
+                </div>
+                <div id="historyList" style="max-height: 200px; overflow-y: auto;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="../js/main.js"></script>
+    
+    <script src="unit-converter.js"></script>
+</body>
+</html>
+

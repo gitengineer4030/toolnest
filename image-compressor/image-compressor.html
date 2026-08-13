@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friendly Image Compressor - Toolnest</title>
+    <meta name="description" content="A super friendly and attractive online image compressor with advanced features for easy optimization.">
+    
+    <!-- Core Styles -->
+    <link rel="stylesheet" href="../global.css">
+    <link rel="stylesheet" href="../responsive.css">
+    <link rel="stylesheet" href="image-compressor.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://unpkg.com/lucide@latest/dist/lucide.min.css" rel="stylesheet">
+</head>
+<body class="app-background">
+    <div class="app-container">
+
+        <!-- Header and Navigation -->
+        <header class="app-header">
+            <nav class="app-nav">
+                <a href="../index.html" class="back-button">
+                    <i data-lucide="arrow-left" class="back-icon"></i>
+                    <span>Back to Tools</span>
+                </a>
+            </nav>
+            <div class="header-content">
+                <h1 class="main-title">Effortless Image Compression</h1>
+                <p class="main-description">
+                    Shrink your images without losing quality. Fast, private, and super easy.
+                </p>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content-area">
+
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="card-panel drop-zone" id="imageUpload">
+                    <input type="file" id="imageInput" accept="image/*" aria-label="Upload image for compression" style="display: none;">
+                    <div class="drop-content" id="dropContent">
+                        <i data-lucide="image-plus" class="upload-icon"></i>
+                        <h3 class="drop-title">Drag & Drop Your Image Here</h3>
+                        <p class="drop-subtitle">or click to browse files</p>
+                        <p class="file-info">Supports JPG, PNG, WebP • Max 50MB</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings & Controls Section -->
+            <section class="controls-section" id="settingsAndControls">
+                <div class="card-panel settings-panel">
+                    <h2 class="panel-title">Compression Settings</h2>
+                    
+                    <div class="setting-group">
+                        <label for="qualitySlider" class="setting-label">Quality Level</label>
+                        <div class="slider-wrapper">
+                            <input type="range" id="qualitySlider" min="0.1" max="1" step="0.1" value="0.8">
+                            <span class="slider-value" id="qualityValue">80%</span>
+                        </div>
+                        <p class="hint-text">Adjust image quality (lower for smaller files, higher for better detail).</p>
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="formatSelect" class="setting-label">Output Format</label>
+                        <select id="formatSelect" class="select-input">
+                            <option value="image/jpeg">JPEG</option>
+                            <option value="image/png">PNG</option>
+                            <option value="image/webp">WebP</option>
+                        </select>
+                        <p class="hint-text">Choose the file type for your compressed image.</p>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label class="setting-label">Resize Image (Optional)</label>
+                        <div class="resize-controls">
+                            <input type="number" id="resizeWidth" placeholder="Width" min="1" class="text-input">
+                            <input type="number" id="resizeHeight" placeholder="Height" min="1" class="text-input">
+                        </div>
+                        <p class="hint-text">Set new dimensions or leave blank for original size.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results & Download Section -->
+            <section class="results-section" id="previewAndDownload">
+                <div class="card-panel results-panel">
+                    <h2 class="panel-title">Your Compressed Image</h2>
+                    
+                    <div class="image-comparison">
+                        <div class="image-card original-card">
+                            <h3 class="image-card-title">Original</h3>
+                            <div class="image-frame">
+                                <img id="originalPreview" alt="Original Image" class="preview-image">
+                            </div>
+                            <p class="image-stats" id="originalInfo"></p>
+                        </div>
+                        
+                        <div class="image-card compressed-card">
+                            <h3 class="image-card-title">Compressed</h3>
+                            <div class="image-frame">
+                                <img id="compressedPreview" alt="Compressed Image" class="preview-image">
+                            </div>
+                            <p class="image-stats" id="compressedInfo"></p>
+                        </div>
+                    </div>
+
+                    <div class="action-area">
+                        <button id="downloadBtn" class="primary-button">
+                            <i data-lucide="download" class="button-icon"></i>
+                            <span>Download Now</span>
+                        </button>
+                        <button id="resetBtn" class="secondary-button">
+                            <i data-lucide="refresh-cw" class="button-icon"></i>
+                            <span>Compress Another</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="image-compressor.js"></script>
+</body>
+</html>
+

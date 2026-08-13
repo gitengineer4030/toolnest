@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Text Files - Toolnest</title>
+    <link rel="stylesheet" href="merge-text.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="tool-page">
+        <a href="../index.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Back to Tools
+        </a>
+        
+        <div class="tool-header">
+            <h1>Merge Text Files</h1>
+            <p>Combine multiple text files into one, effortlessly. Supports various text-based formats for seamless integration.</p>
+        </div>
+        
+        <div class="tool-content">
+            <div class="file-upload-section">
+                <div class="drop-zone" id="dropZone">
+                    <input type="file" id="textFilesInput" multiple accept=".txt,.csv,.log,.md,.json">
+                    <div class="drop-zone-content">
+                        <i data-lucide="upload-cloud" class="upload-icon"></i>
+                        <p class="drop-zone-text">Drag & Drop Your Files Here or <span>Click to Browse</span></p>
+                        <p class="drop-zone-subtext">Supported formats: .txt, .csv, .log, .md, .json</p>
+                    </div>
+                </div>
+                <div id="fileListContainer" class="file-list-container hidden">
+                    <ul id="fileList" class="file-list"></ul>
+                    <button id="clearFilesBtn" class="btn btn-secondary btn-sm">Clear All Files</button>
+                </div>
+            </div>
+
+            <div class="options-section">
+                <h2>Merge Options</h2>
+                <div class="form-group">
+                    <label for="separator" class="form-label">Separator between files:</label>
+                    <select id="separator" class="form-select">
+                        <option value="newline">New Line</option>
+                        <option value="space">Space</option>
+                        <option value="double-newline">Double New Line (Paragraph)</option>
+                        <option value="custom">Custom Separator</option>
+                    </select>
+                    <input type="text" id="customSeparator" class="form-input mt-2 hidden" placeholder="Enter custom separator">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Output Filename:</label>
+                    <input type="text" id="outputFilename" class="form-input" value="merged_text.txt">
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="mergeBtn" class="btn btn-primary" disabled>
+                    <i data-lucide="combine"></i>
+                    Merge Files
+                </button>
+            </div>
+
+            <div id="resultsContainer" class="results-container hidden">
+                <h2 class="results-title">Merged Output</h2>
+                <textarea id="mergedText" class="form-textarea" rows="15" readonly></textarea>
+                <div class="results-actions">
+                    <button id="copyToClipboardBtn" class="btn btn-secondary">
+                        <i data-lucide="copy"></i>
+                        Copy to Clipboard
+                    </button>
+                    <a id="downloadLink" class="btn btn-success" download="merged_text.txt">
+                        <i data-lucide="download"></i>
+                        Download Merged File
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/main.js"></script>
+    <script src="../js/fileValidator.js"></script>
+    <script src="merge-text.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+

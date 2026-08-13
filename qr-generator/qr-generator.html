@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QR Code Generator</title>
+  <link rel="stylesheet" href="qr-generator.css">
+</head>
+<body>
+  <div class="container" role="application" aria-label="QR Code Generator">
+    <h1>QR Code Generator</h1>
+    <p class="sub">Enter any text or URL, customize size and colors, generate, and download as PNG.</p>
+
+    <div class="row">
+        <div>
+            <label for="categorySelect">Category</label>
+            <select id="categorySelect">
+                <option value="text">Text</option>
+                <option value="link" selected>Link</option>
+                <option value="email">Email & Password</option>
+                <option value="phone">Phone Number</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="inputContainer">
+        <!-- Text Input -->
+        <div id="textInputGroup" class="input-group hidden">
+            <label for="qrTextInput">Text</label>
+            <textarea id="qrTextInput" placeholder="Enter your text here..."></textarea>
+        </div>
+
+        <!-- Link Input -->
+        <div id="linkInputGroup" class="input-group">
+            <label for="qrLinkInput">Link (URL)</label>
+            <input id="qrLinkInput" type="url" placeholder="e.g., https://example.com">
+        </div>
+
+        <!-- Email & Password Input -->
+        <div id="emailInputGroup" class="input-group hidden">
+            <label for="qrEmailInput">Email</label>
+            <input id="qrEmailInput" type="email" placeholder="e.g., user@example.com">
+            <label for="qrPasswordInput">Password</label>
+            <input id="qrPasswordInput" type="password" placeholder="Enter password">
+        </div>
+
+        <!-- Phone Number Input -->
+        <div id="phoneInputGroup" class="input-group hidden">
+            <label for="qrPhoneInput">Phone Number</label>
+            <input id="qrPhoneInput" type="tel" placeholder="e.g., +15551234567">
+        </div>
+    </div>
+
+    <div class="row row-2" style="margin-top: 8px;">
+      <div>
+        <label for="qrSize">Size</label>
+        <select id="qrSize">
+          <option value="200">200 × 200</option>
+          <option value="300" selected>300 × 300</option>
+          <option value="400">400 × 400</option>
+          <option value="512">512 × 512</option>
+        </select>
+      </div>
+      <div>
+        <label for="qrECC">Error Correction</label>
+        <select id="qrECC">
+          <option value="L">L (7%)</option>
+          <option value="M" selected>M (15%)</option>
+          <option value="Q">Q (25%)</option>
+          <option value="H">H (30%)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row row-2" style="margin-top: 8px;">
+      <div>
+        <label for="fgColor">Foreground</label>
+        <input id="fgColor" type="color" value="#000000" />
+      </div>
+      <div>
+        <label for="bgColor">Background</label>
+        <input id="bgColor" type="color" value="#ffffff" />
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="btnGenerate" class="btn-primary" aria-label="Generate QR code">Generate QR</button>
+      <button id="btnDownload" class="btn-success" aria-label="Download QR code" disabled>Download PNG</button>
+      <button id="btnClear" class="btn-ghost" aria-label="Clear QR code">Clear</button>
+    </div>
+
+    <div id="preview" class="preview" aria-live="polite">
+      <div class="preview-card">
+        <div id="qrcode"></div>
+      </div>
+      <div id="meta" class="meta"></div>
+    </div>
+  </div>
+
+  <!-- QRCode.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script src="qr-generator2.js"></script>
+</body>
+</html>
+
+

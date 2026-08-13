@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer & Stopwatch - Toolnest</title>
+    <link rel="stylesheet" href="timer-stopwatch.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="tool-page">
+        <a href="../index.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Back to Tools
+        </a>
+        
+        <div class="tool-header">
+            <h1>Timer & Stopwatch</h1>
+            <p>A simple and functional timer and stopwatch tool.</p>
+        </div>
+        
+        <div class="tool-content">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="timer">Timer</button>
+                <button class="tab-btn" data-tab="stopwatch">Stopwatch</button>
+            </div>
+
+            <div id="timer" class="tab-content active">
+                <div class="display timer-display">00:00:00</div>
+                <div class="timer-inputs">
+                    <input type="number" id="hourInput" placeholder="HH" min="0" max="99">
+                    <input type="number" id="minuteInput" placeholder="MM" min="0" max="59">
+                    <input type="number" id="secondInput" placeholder="SS" min="0" max="59">
+                </div>
+                <div class="controls">
+                    <button id="startTimerBtn" class="btn btn-primary">Start</button>
+                    <button id="pauseTimerBtn" class="btn btn-secondary" disabled>Pause</button>
+                    <button id="resetTimerBtn" class="btn btn-secondary" disabled>Reset</button>
+                </div>
+            </div>
+
+            <div id="stopwatch" class="tab-content hidden">
+                <div class="display stopwatch-display">00:00:00</div>
+                <div class="controls">
+                    <button id="startStopwatchBtn" class="btn btn-primary">Start</button>
+                    <button id="pauseStopwatchBtn" class="btn btn-secondary" disabled>Pause</button>
+                    <button id="resetStopwatchBtn" class="btn btn-secondary" disabled>Reset</button>
+                    <button id="lapStopwatchBtn" class="btn btn-secondary" disabled>Lap</button>
+                </div>
+                <ul id="lapsList" class="laps-list"></ul>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+    <script src="timer-stopwatch.js"></script>
+</body>
+</html>
+
+

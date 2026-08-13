@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Encryption - Toolnest</title>
+    <link rel="stylesheet" href="text-encryption.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="tool-page">
+        <a href="../index.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Back to Tools
+        </a>
+        
+        <div class="tool-header">
+            <h1>Text Encryption</h1>
+            <p>Encrypt and decrypt text using AES encryption in the browser.</p>
+        </div>
+        
+        <div class="tool-content">
+            <div class="form-group">
+                <label for="inputText" class="form-label">Input Text</label>
+                <textarea id="inputText" class="form-textarea" rows="8" placeholder="Enter text to encrypt or decrypt..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="encryptionKey" class="form-label">Encryption Key (Password)</label>
+                <input type="password" id="encryptionKey" class="form-input" placeholder="Enter a strong encryption key">
+            </div>
+
+            <div class="form-group">
+                <div class="flex flex-wrap gap-2">
+                    <button id="encryptBtn" class="btn btn-primary">Encrypt</button>
+                    <button id="decryptBtn" class="btn btn-secondary">Decrypt</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="outputText" class="form-label">Output Text</label>
+                <textarea id="outputText" class="form-textarea" rows="8" readonly></textarea>
+            </div>
+
+            <div class="form-group">
+                <button id="copyBtn" class="btn btn-success">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+    <script src="text-encryption.js"></script>
+</body>
+</html>
+
+
+

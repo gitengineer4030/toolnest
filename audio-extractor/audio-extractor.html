@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Extractor - Toolnest</title>
+    <link rel="stylesheet" href="audio-extractor.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="tool-page">
+        <a href="../index.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Back to Tools
+        </a>
+        
+        <div class="tool-header">
+            <h1>Audio Extractor</h1>
+            <p>Extract audio tracks from video files using Web Audio API.</p>
+        </div>
+        
+        <div class="tool-content">
+            <div class="form-group">
+                <label for="videoFileInput" class="form-label">Select Video File</label>
+                <div class="file-upload" id="fileUploadArea">
+                    <input type="file" id="audioFile" accept="video/*">
+                    <div class="upload-icon">
+                        <i data-lucide="video"></i>
+                    </div>
+                    <div class="upload-text">Click to upload or drag and drop</div>
+                    <div class="upload-subtext">MP4, WebM, Ogg, etc.</div>
+                </div>
+            </div>
+
+            <div id="fileInfo" class="hidden">
+                <p><strong>File:</strong> <span id="fileName"></span></p>
+                <p><strong>Size:</strong> <span id="fileSize"></span></p>
+            </div>
+
+            <div class="form-group">
+                <button id="extractBtn" class="btn btn-primary" disabled>Extract Audio</button>
+            </div>
+
+            <div class="form-group">
+                <label for="outputFormat" class="form-label">Output Format</label>
+                <select id="outputFormat" class="form-select">
+                    <option value="wav">WAV (Uncompressed)</option>
+                    <option value="mp3">MP3 (Compressed)</option>
+                </select>
+            </div>
+
+            <div id="loadingIndicator" class="loading-indicator hidden">
+                <div class="spinner"></div>
+                <p>Extracting audio, please wait...</p>
+            </div>
+
+            <div id="resultsContainer" class="results-container hidden">
+                <h3 class="results-title">Extracted Audio</h3>
+                <div id="audioPlayerContainer"></div>
+                <a id="downloadLink" class="btn btn-success hidden" download="audio.mp3">Download Audio</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="../js/fileValidator.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.0/lame.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+    <script src="audio-extractor.js"></script>
+</body>
+</html>
+
+
+

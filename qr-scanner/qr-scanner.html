@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner - Toolnest</title>
+    <link rel="stylesheet" href="qr-scanner.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="tool-page">
+        <a href="../index.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Back to Tools
+        </a>
+        
+        <div class="tool-header">
+            <h1>QR Code Scanner</h1>
+            <p>Scan QR codes using your device camera with live detection.</p>
+        </div>
+        
+        <div class="tool-content">
+            <div id="scanner-container">
+                <div class="camera-select-group">
+                    <label for="cameraSelect" class="form-label">Select Camera:</label>
+                    <select id="cameraSelect" class="form-select"></select>
+                </div>
+
+                <div id="reader" class="qr-reader"></div>
+
+                <div class="scanner-controls">
+                    <button id="startScanBtn" class="btn btn-primary"><i data-lucide="scan"></i> Start Scan</button>
+                    <button id="stopScanBtn" class="btn btn-danger hidden"><i data-lucide="stop-circle"></i> Stop Scan</button>
+                </div>
+            </div>
+
+            <div id="result-container" class="result-container hidden">
+                <h2>Scanned Result</h2>
+                <textarea id="qrResult" class="form-textarea" rows="6" readonly placeholder="Scanned QR code data will appear here..."></textarea>
+                <a id="openLinkBtn" class="btn btn-secondary hidden" target="_blank"><i data-lucide="external-link"></i> Open Link</a>
+                <button id="copyTextBtn" class="btn btn-secondary hidden"><i data-lucide="copy"></i> Copy Text</button>
+            </div>
+
+            <div id="message-box" class="message-box hidden">
+                <p id="message-text"></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+    <script src="qr-scanner.js"></script>
+</body>
+</html>
+
+
